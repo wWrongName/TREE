@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
 	NODE *tree = NULL;
 
 	while (fscanf(input, "%lf", &val) != EOF) {
-		if (!search_for_twise(tree, val))
+		if (!search_for_twice(tree, val))
 			tree = insert(tree, val);
 	}
 	
