@@ -1,7 +1,6 @@
 #ifndef _TREE_
 #define _TREE_
 
-
 typedef struct NODE{
 	double  value;
 	int  weight;
