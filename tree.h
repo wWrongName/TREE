@@ -40,4 +40,4 @@ NODE *n_remove      (NODE *ptr, double val);
 void error1();
 void error2();
 
-#endif _TREE_
+#endif
