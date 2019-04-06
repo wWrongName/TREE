@@ -12,7 +12,7 @@ void error2() {
 	printf("ERROR: Inappropriate files extention! Use .txt extention.\n");
 }
 
-int search_for_twise(NODE *tree, double val) {
+int search_for_twice(NODE *tree, double val) {
 	NODE *tmp = tree;
 	while (1) {
 		if (tmp == NULL)
