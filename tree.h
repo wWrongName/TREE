@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _TREE_
+#define _TREE_
+
 
 typedef struct NODE{
 	double  value;
@@ -20,3 +22,5 @@ int search_for_twise(NODE *tree, double val);
 NODE *create_node   (double val);
 void error1();
 void error2();
+
+#endif _TREE_
