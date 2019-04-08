@@ -12,6 +12,9 @@ typedef struct NODE{
 //Проверяет входные значения на дубликаты
 int search_for_twise(NODE *tree, double val);
 
+//Удаляет дерево
+void clear_tree(NODE *tree);
+
 //Выделяет память для узла, присвает указателям на потомки NULL и присвает числовое значение переменной value
 NODE *create_node   (double val);
 
