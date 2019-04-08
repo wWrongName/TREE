@@ -12,6 +12,14 @@ void error2() {
 	printf("ERROR: Inappropriate files extention! Use .txt extention.\n");
 }
 
+void clear_tree(NODE *tree) {
+	if (tree->left != NULL)
+		clear_tree(tree->left);
+	if (tree->right != NULL)
+		clear_tree(tree->right);
+	return free(tree);
+}
+
 int search_for_twice(NODE *tree, double val) {
 	NODE *tmp = tree;
 	while (1) {
