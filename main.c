@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 	printf("Input a number to remove: ");
 	scanf("%lf", &temp);
 	tree = n_remove(tree, temp);
-	free(tree);
+	clear_tree(tree);
 	fclose(input);
 	return 0;
 }
