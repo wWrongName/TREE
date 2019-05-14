@@ -32,15 +32,18 @@ NODE *right_to_left (NODE *top);
 NODE *twice_balanse (NODE *top);
 
 //Функции балансировки при удалении элемента
-NODE *find_least    (NODE *ptr);
 NODE *remove_least  (NODE *top);
+NODE *find_least    (NODE *ptr);
 
 //Функции вставки и удаления узлов
-NODE *insert        (NODE *ptr, double val);
-NODE *n_remove      (NODE *ptr, double val);
+NODE *insert_n      (NODE *ptr, double val);
+NODE *remove_n      (NODE *ptr, double val);
 
-//Выдают описания к ошибкам при попытке открытия файла
-void error1();
-void error2();
+//Описание программы
+void help();
+void intro();
+
+//Записывает дерево в виде таблицы в файл
+void print_t        (NODE *tree, unsigned int layer, FILE *output);
 
 #endif

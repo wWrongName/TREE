@@ -1,46 +1,81 @@
-#include "pch.h"
 #include <stdio.h>
 #include <string.h>
 #include "tree.h"
 
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-	double val;
-	const char* txt = ".txt";
-
-	if (argc != 3) {
-		error1();
-		return 1;
-	}
-	if (strcmp(argv[1], "-i")) {
-		error1();
-		return 1;
-	}
-	if (NULL == strstr(argv[2], txt)) {
-		error2();
-		return 1;
-	}
-	
-	FILE* input = fopen(argv[2], "r");
-	if (input == NULL) {
-		printf("ERROR: Input file (");
-		printf(argv[2]);
-		printf(") is not found\n");
-		return 1;
-	}
 	NODE *tree = NULL;
+	char file_name[1000];
+	char str[7];
+	char *arg;
+	double value;
 
-	while (fscanf(input, "%lf", &val) != EOF) {
-		if (!search_for_twice(tree, val))
-			tree = insert(tree, val);
+	intro();
+	scanf("%s", &str);
+	arg = _strdup(str);
+
+	while (strcmp(arg, "exit")) {
+		if(!strcmp(arg, "help"))
+			help();
+
+		else if(!strcmp(arg, "insert")) {
+			printf("input number: ");
+			scanf("%lf", &value);
+			if (!search_for_twice(tree, value))
+				tree = insert_n(tree, value);
+			printf("\n> ");
+		}
+
+		else if(!strcmp(arg, "remove")){
+			printf("input number: ");
+			scanf("%lf", &value);
+			tree = remove_n(tree, value);
+			printf("\n> ");
+		}
+
+		else if(!strcmp(arg, "read")) {
+			printf("input file: ");
+			scanf("%s", &file_name);
+			FILE *input = fopen(file_name, "r");
+			if (input == NULL) 
+				printf("File was not found. Plaease, check the file path.\n");
+			else {
+				while (fscanf(input, "%lf", &value) != EOF) {
+					if (!search_for_twice(tree, value))
+						tree = insert_n(tree, value);
+				}
+				fclose(input);
+				printf("Data was read successfully!\n\n");
+			}
+				printf("> ");
+		}
+
+		else if(!strcmp(arg, "write")) {
+			printf("output file: ");
+			scanf("%s", &file_name);
+			FILE *output = fopen(file_name, "w");
+			if (output == NULL) 
+				printf("File was not created. Please check a file path or available memory\n\n");
+			else {
+				fprintf(output, "POS\tVAL\t\t\tL\tR\n");
+				print_t(tree, 0, output);
+				fclose(output);
+				printf("Data was written successfully!\n\n");
+			}
+			printf("> ");
+		}
+
+		else {
+			printf("Incorrect input. Type 'help' to get the list of available options\n\n");
+			printf("> ");
+		}
+		scanf("%s", &str);
+		arg = _strdup(str);
 	}
-	
-	double temp;
-	printf("Input a number to remove: ");
-	scanf("%lf", &temp);
-	tree = n_remove(tree, temp);
-	clear_tree(tree);
-	fclose(input);
+
+	if(tree != NULL)
+		tree = clear_tree(tree);
+
 	return 0;
 }

@@ -1,23 +1,31 @@
-#include "pch.h"
-#include "tree.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "tree.h"
 
-void error1() {
-	printf("ERROR: You need enter input file. Below is an example:\n");
-	printf("       C:\\file directory path> circle.exe -i input.txt\n");
+void help() {
+	printf("\nINSTRUCTION\n");
+	printf("Program have five available options:\n");
+	printf("insert (inserts one number into the tree)\n");
+	printf("remove (removes one number from the tree)\n");
+	printf("read   (reads numbers from .txt)\n");
+	printf("write  (writes tree into .txt in the form of a table)\n");
+	printf("exit   (exit the program)\n\n");
+	printf("> ");
 }
 
-void error2() {
-	printf("ERROR: Inappropriate files extention! Use .txt extention.\n");
+void intro() {
+	printf("Hello! This program implements a binary search tree.\n");
+	printf("Now you can make the tree. For help type 'help'.\n\n");
+	printf("> ");
 }
 
-void clear_tree(NODE *tree) {
+NODE *clear_tree(NODE *tree) {
 	if (tree->left != NULL)
-		clear_tree(tree->left);
+		tree->left = clear_tree(tree->left);
 	if (tree->right != NULL)
-		clear_tree(tree->right);
-	return free(tree);
+		tree->right = clear_tree(tree->right);
+	free(tree);
+	return NULL;
 }
 
 int search_for_twice(NODE *tree, double val) {
@@ -104,12 +112,12 @@ NODE *right_to_left(NODE *top) {
 
 NODE *twice_balanse(NODE *top) {
 	count_weight(top);
-	if (difference(top) == 2) {
+	if (difference(top) >= 2) {
 		if (difference(top->left) < 0)
 			top->left = right_to_left(top->left);
 		return left_to_right(top);
 	}
-	if (difference(top) == -2) {
+	if (difference(top) <= -2) {
 		if (difference(top->right) > 0)
 			top->right = left_to_right(top->right);
 		return right_to_left(top);
@@ -117,19 +125,19 @@ NODE *twice_balanse(NODE *top) {
 	return top;
 }
 
-NODE *insert(NODE *ptr, double val) {
+NODE *insert_n(NODE *ptr, double val) {
 	if (ptr == NULL) {
 		ptr = create_node(val);
 		ptr->value = val;
 	}
 	else if (val < ptr->value)
-		ptr->left = insert(ptr->left, val);
+		ptr->left = insert_n(ptr->left, val);
 	else 
-		ptr->right = insert(ptr->right, val);
+		ptr->right = insert_n(ptr->right, val);
 	return twice_balanse(ptr);
 }
 
-NODE *n_remove(NODE *ptr, double val) {
+NODE *remove_n(NODE *ptr, double val) {
 	if (ptr == NULL) {
 		printf("Number does not exist\n");
 		return ptr;
@@ -147,8 +155,16 @@ NODE *n_remove(NODE *ptr, double val) {
 		return twice_balanse(new_top);
 	}
 	else if (val < ptr->value)
-		ptr->left = n_remove(ptr->left, val);
+		ptr->left = remove_n(ptr->left, val);
 	else
-		ptr->right = n_remove(ptr->right, val);
+		ptr->right = remove_n(ptr->right, val);
 	return twice_balanse(ptr);
+}
+
+void print_t(NODE *tree, unsigned int layer, FILE *output) {
+	fprintf(output, "%d\t%lf\t\t%d\t%d\n", layer, tree->value, layer * 2 + 1, layer * 2 + 2);
+	if (tree->left != NULL)
+		print_t(tree->left, layer * 2 + 1, output);
+	if (tree->right != NULL)
+		print_t(tree->right, layer * 2 + 2, output);
 }
