@@ -13,7 +13,7 @@ typedef struct NODE{
 int search_for_twise(NODE *tree, double val);
 
 //Удаляет дерево
-void clear_tree(NODE *tree);
+NODE *clear_tree(NODE *tree);
 
 //Выделяет память для узла, присвает указателям на потомки NULL и присвает числовое значение переменной value
 NODE *create_node   (double val);
